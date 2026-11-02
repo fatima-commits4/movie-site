@@ -1,14 +1,14 @@
 <?php
-// Database connection
+//database connection
 $conn = new mysqli("localhost", "root", "", "movie_db");
 
-// Check connection
+//checks connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Query to get movies from the database
-$sql = "SELECT title FROM Movies LIMIT 5";  // Example: Get the latest 5 movies
+//get movies from database
+$sql = "SELECT title FROM Movies LIMIT 5";  //get 5 latest movies
 $result = $conn->query($sql);
 ?>
 
@@ -30,9 +30,9 @@ $result = $conn->query($sql);
 <h2>Latest Movies</h2>
 
 <?php
-// Check if the query was successful and if there are rows to display
+//check if query was successful and if there are rows to display
 if ($result && $result->num_rows > 0) {
-    // Loop through each movie and show the title
+    //loop through each movie and show the title 
     while ($row = $result->fetch_assoc()) {
         echo "<p>" . $row['title'] . "</p>";
     }
@@ -40,27 +40,26 @@ if ($result && $result->num_rows > 0) {
     echo "<p>No movies found.</p>";
 }
 
-// Close the database connection
+//closes the database connection
 $conn->close();
 ?>
 
 <h2>Sign Up</h2>
 
 <?php
-// Handle user registration (form submission)
+//handles user registration
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the form data
     $username = $_POST["username"];
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    // Hash the password (so it's not plain text)
+    //hashes password
     $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
-    // Re-establish database connection for inserting user
+    //re-establishes database connection for user insertion
     $conn = new mysqli("localhost", "root", "", "movie_db");
 
-    // Insert into Users table
+    //inserts into users table
     $sql = "INSERT INTO Users (username, email, password) VALUES ('$username', '$email', '$password_hashed')";
 
     if ($conn->query($sql) === TRUE) {
@@ -69,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "❌ Error: " . $conn->error;
     }
 
-    // Close the new connection after registration
+    //close new connection
     $conn->close();
 }
 ?>

@@ -1,14 +1,14 @@
 <?php
-session_start(); // Start session
+session_start(); //starts session
 
-// Database connection
+//connects to database
 $conn = new mysqli("localhost", "root", "", "movie_db");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Simple login check
+//login check
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $password = $_POST["password"];
@@ -22,13 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Check if password matches
+        //password verification
         if (password_verify($password, $user['password'])) {
-			$user = $result->fetch_assoc(); // it includes user_id if you're selecting *
-            $_SESSION['username'] = $username; // Save username in session
-            $_SESSION['user_id'] = $user['user_id']; // Save user_id in session for reviews
-            header("Location: welcome.php");  // Redirect to the welcome page
-            exit;  // Make sure code stops here
+			$user = $result->fetch_assoc(); 
+            $_SESSION['username'] = $username; 
+            $_SESSION['user_id'] = $user['user_id']; //user_id saved 
+            header("Location: welcome.php");  //redirection to homepage
+            exit; 
         } else {
             echo "❌ Incorrect password!";
         }
@@ -36,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "❌ User not found!";
     }
 
-    $stmt->close(); // Close the prepared statement
+    $stmt->close(); //close statament
 }
 
-$conn->close(); // Close the database connection
+$conn->close(); //closes database connection
 ?>
 
 <!-- Simple Login Form -->

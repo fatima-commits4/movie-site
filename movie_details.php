@@ -1,28 +1,28 @@
 <?php
-// Connect to the database
+//connects to database
 $conn = mysqli_connect("localhost", "root", "", "movie_db");
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Get the movie ID from the URL
+//fetches movie ID from the URL
 $movie_id = $_GET['id'];
 
-// Query to get the movie details based on the movie ID
+//gets movie details based on movie ID
 $sql = "SELECT * FROM Movies WHERE movie_id = '$movie_id'";
 $result = mysqli_query($conn, $sql);
 
-// Check if the movie exists
+//checks if movie exists
 if (mysqli_num_rows($result) > 0) {
-    // Fetch the movie details
+    //movie details 
     $movie = mysqli_fetch_assoc($result);
 } else {
     echo "<p>Movie not found.</p>";
     exit;
 }
 
-// Query to get reviews for the specific movie
+//gets reviews for specific movies
 $sql_reviews = "SELECT Reviews.review_text, Reviews.rating, Users.username 
                 FROM Reviews 
                 JOIN Users ON Reviews.user_id = Users.user_id
@@ -30,7 +30,7 @@ $sql_reviews = "SELECT Reviews.review_text, Reviews.rating, Users.username
 
 $result_reviews = mysqli_query($conn, $sql_reviews);
 
-// Close the database connection
+//close database connection
 mysqli_close($conn);
 ?>
 
@@ -53,7 +53,7 @@ mysqli_close($conn);
 <h2>Reviews</h2>
 
 <?php
-// Display reviews if there are any
+//displays reviews (if there are any)
 if (mysqli_num_rows($result_reviews) > 0) {
     while ($review = mysqli_fetch_assoc($result_reviews)) {
         echo "<div>";

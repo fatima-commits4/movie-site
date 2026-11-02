@@ -1,11 +1,10 @@
 <?php
-// Start the session to manage user login data
 session_start();
 
-// Destroy the session (this logs the user out)
+//destroy session
 session_destroy();
 
-// Redirect to the login page
+//redirect to login
 header("Location: login.php");
 exit();
 ?>

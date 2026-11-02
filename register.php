@@ -1,54 +1,52 @@
 	<?php
-// Step 1: Connect to the database
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "movie_db";
 
-// Create connection
+//creates connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-// Check the connection
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Start the session
 session_start();
 
-// Step 2: Check if the form is submitted and validate input
+//validates input
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check if the required fields are set and not empty
+    //check if required fields aren't empty
     if (isset($_POST['username'], $_POST['email'], $_POST['password']) &&
         !empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password'])) {
 
-        // Step 3: Sanitize and validate user input to prevent SQL injection and other issues
+        //validate input
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = $_POST['password'];
 
-        // Step 4: Hash the password for security
+        //password hash
         $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
-        // Step 5: Prepare the SQL query using prepared statements (prevents SQL injection)
+        //prepare SQL query
         $stmt = $conn->prepare("INSERT INTO Users (username, email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $username, $email, $password_hashed);  // Bind parameters
 
-        // Step 6: Execute the query
+        //executes query
         if ($stmt->execute()) {
             echo "✅ Registered successfully!";
         } else {
             echo "❌ Error: " . $stmt->error;
         }
 
-        // Step 7: Close the prepared statement and database connection
+      
         $stmt->close();
     } else {
         echo "❌ Please fill out all the fields!";
     }
 }
 
-// Step 8: Close the connection
+
 mysqli_close($conn);
 ?>
 

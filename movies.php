@@ -1,5 +1,4 @@
 <?php
-// Step 1: Connect to the database (only once)
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -7,34 +6,34 @@ $dbname = "movie_db";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-// Check the connection
+
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Step 2: Process AJAX request and display filtered results
+//process ajax request
 if (isset($_GET['search']) || isset($_GET['year']) || isset($_GET['genre'])) {
-    // Get the search term, year, and genre from the query string
+    //search title, year and genre
     $search = isset($_GET['search']) ? $_GET['search'] : '';
     $year = isset($_GET['year']) ? $_GET['year'] : '';
     $genre = isset($_GET['genre']) ? $_GET['genre'] : '';
 
     // Build the SQL query based on the filters
-    $sql = "SELECT * FROM Movies WHERE 1";  // Base query
+    $sql = "SELECT * FROM Movies WHERE 1"; 
     if ($search) {
-        $sql .= " AND title LIKE '%$search%'"; // Filter by title
+        $sql .= " AND title LIKE '%$search%'"; //filter by title
     }
     if ($year) {
-        $sql .= " AND release_year = '$year'"; // Filter by year
+        $sql .= " AND release_year = '$year'"; //filter by year
     }
     if ($genre) {
-        $sql .= " AND genre LIKE '%$genre%'"; // Filter by genre
+        $sql .= " AND genre LIKE '%$genre%'"; //filter by genre
     }
 
-    // Run the query and get the results
+    //run query & get results
     $result = mysqli_query($conn, $sql);
 
-    // Output only the filtered results
+    //output filtered results
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<div class='movie'>";
@@ -50,13 +49,13 @@ if (isset($_GET['search']) || isset($_GET['year']) || isset($_GET['genre'])) {
         echo "<p>No movies found.</p>";  // If no results
     }
 
-    // Close the connection
+    
     mysqli_close($conn);
-    exit;  // Stop further processing, we only need the filtered results
+    exit; 
 }
 
-// Step 3: Fetch all movies if no filters are applied
-$sql = "SELECT * FROM Movies"; // Get all movies by default
+//get all movies if no filters are applied
+$sql = "SELECT * FROM Movies"; //get all movies
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -110,36 +109,36 @@ $result = mysqli_query($conn, $sql);
             echo "</div>";
         }
     } else {
-        echo "<p>No movies found.</p>";  // If no results
+        echo "<p>No movies found.</p>";  //if no results
     }
     ?>
 </div>
 
 <script>
     $(document).ready(function() {
-        // When the form is submitted
+        //form is submitted
         $('#search-form').on('submit', function(event) {
-            event.preventDefault();  // Prevent normal form submission
+            event.preventDefault();  //prevent normal form submission
             
             var search = $('#search').val();
             var year = $('#year').val();
             var genre = $('#genre').val();
             
-            // Make the AJAX request
+            //ajax request
             $.ajax({
-                url: 'movies.php',  // Same PHP file to process search and filter
+                url: 'movies.php',  //same php file to search and filter 
                 method: 'GET',
-                data: { search: search, year: year, genre: genre },  // Send the filters
+                data: { search: search, year: year, genre: genre },  //send filters
                 success: function(response) {
-                    // Update the movie-results div with the response from the PHP file
+                    //update the movie results with response from the php files
                     $('#movie-results').html(response);
                 }
             });
         });
 
-        // Optional: Trigger search when input is changed (for real-time filtering)
+        //trigger search when input is added
         $('#search, #year, #genre').on('input', function() {
-            $('#search-form').submit();  // Submit form when any input is changed
+            $('#search-form').submit();  //submit form when input is changed
         });
     });
 </script>
@@ -148,7 +147,6 @@ $result = mysqli_query($conn, $sql);
 </html>
 
 <?php
-// Step 4: Close the connection to the database
 mysqli_close($conn);
 ?>
 
