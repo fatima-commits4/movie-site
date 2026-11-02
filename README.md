@@ -1,8 +1,9 @@
 # Full-Stack Movie Database Web Application
 
-A dynamic web application for browsing, viewing, and managing movie entries, built with PHP, HTML, and a backend database.
+A dynamic web application for searching, browsing, and managing movie entries, built with PHP, HTML, and a backend database.
 
 ## Features
+- **Search & Discovery:** Integrated search functionality to instantly look up movies in the database.
 - **User Authentication:** Secure user login and logout system (`login.php`, `logout.php`).
 - **Movie Catalog:** Interactive library displaying movie titles, detailed descriptions, and posters.
 - **Rating System:** Integrated 1–5 star rating feature for evaluating films.
