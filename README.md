@@ -13,3 +13,5 @@ A dynamic web application for searching, browsing, and managing movie entries, b
 - **Frontend:** HTML5, CSS3
 - **Backend:** PHP
 - **Database:** MySQL / MariaDB (relational database connection)
+## Project Documentation
+*Full academic technical report and architectural schematics are available upon request.*
